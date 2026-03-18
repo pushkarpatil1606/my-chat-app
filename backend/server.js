@@ -14,7 +14,22 @@ const userRoutes = require("./routes/userRoutes");
 connectDB();
 
 const app = express();
-app.use(cors({ origin: process.env.FRONTEND_URL || '*' }));
+const allowedOrigins = [
+    "http://localhost:3000",
+    "https://my-chat-application-seven.vercel.app"
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true
+  }));
+app.options('*', cors());
 app.use(express.json({ limit: '10mb' }));
 app.use("/api/users", userRoutes);
 
