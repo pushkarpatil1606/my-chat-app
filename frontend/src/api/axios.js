@@ -7,5 +7,5 @@ API.interceptors.request.use((config) => {
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
-
+console.log("API URL:", process.env.REACT_APP_API_URL);
 export default API;
